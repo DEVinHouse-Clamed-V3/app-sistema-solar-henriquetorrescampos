@@ -129,7 +129,6 @@ const styles = StyleSheet.create({
   planetRow: {
     flexDirection: "row",
     justifyContent: "space-between",
-
     width: "100%",
     alignItems: "center",
   },
@@ -144,6 +143,6 @@ const styles = StyleSheet.create({
     color: "#FFF",
     fontWeight: "bold",
     fontSize: 16,
-    textAlign: "right",
+    marginRight: 10,
   },
 });
