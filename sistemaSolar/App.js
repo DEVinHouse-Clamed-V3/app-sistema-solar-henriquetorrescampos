@@ -10,29 +10,27 @@ import {
 
 import { useState } from "react";
 
-import {planetas} from "./planetas";
+import { planetas } from "./planetas";
 
-import { Planet } from './Planet'
+import { Planet } from "./Planet";
 
 export default function App() {
-
-  const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0)
+  const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0);
 
   const next = () => {
     if (currentPlanetIndex < planetas.length - 1) {
-      setCurrentPlanetIndex(currentPlanetIndex + 1)
+      setCurrentPlanetIndex(currentPlanetIndex + 1);
     }
-  }
+  };
 
   const previous = () => {
     if (currentPlanetIndex > 0) {
-      setCurrentPlanetIndex(currentPlanetIndex - 1)
+      setCurrentPlanetIndex(currentPlanetIndex - 1);
     }
-  }
+  };
 
   return (
     <SafeAreaView style={{ flex: 1 }}>
-      
       <View style={styles.header}>
         <View style={styles.headerContentRow}>
           <Text style={styles.headerText}>Vamos explorar</Text>
@@ -43,17 +41,26 @@ export default function App() {
           ></Image>
         </View>
 
-        <ScrollView>
-          <Planet planeta={planetas[currentPlanetIndex]}></Planet>
-          {/* {planetas.map((planeta) => (
+        {/* <ScrollView> */}
+        <Planet planeta={planetas[currentPlanetIndex]}></Planet>
+        {/* {planetas.map((planeta) => (
             <Planet planeta={planeta}></Planet>
           ))} */}
-        </ScrollView>
-        <View style={styles.navButtons}>
-          <Button title="Anterior" onPress={previous} disabled={currentPlanetIndex === 0}></Button>
-          <Button title="Próximo" onPress={next} disabled={currentPlanetIndex === planetas.length - 1}></Button>
-        </View>
+        {/* </ScrollView> */}
 
+        <View style={styles.navButtons}>
+          <Button
+            title="Anterior"
+            onPress={previous}
+            disabled={currentPlanetIndex === 0}
+          ></Button>
+
+          <Button
+            title="Próximo"
+            onPress={next}
+            disabled={currentPlanetIndex === planetas.length - 1}
+          ></Button>
+        </View>
       </View>
     </SafeAreaView>
   );
@@ -86,9 +93,9 @@ const styles = StyleSheet.create({
   },
 
   navButtons: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    width: '80%',
-    marginTop: 10
-  }
+    flexDirection: "row",
+    justifyContent: "space-between",
+    width: "80%",
+    marginTop: 10,
+  },
 });
