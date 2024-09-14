@@ -1,4 +1,3 @@
-import { StatusBar } from "expo-status-bar";
 import {
   SafeAreaView,
   StyleSheet,
@@ -6,15 +5,34 @@ import {
   View,
   Image,
   ScrollView,
+  Button,
 } from "react-native";
-import { planetas } from "./planetas";
+
+import { useState } from "react";
+
+import {planetas} from "./planetas";
+
+import { Planet } from './Planet'
 
 export default function App() {
-  function formatNum(value) {
-    return value.toString().replace(/\B(?=(\d{3})+(?!\d))/g, ".") + " m²";
+
+  const [currentPlanetIndex, setCurrentPlanetIndex] = useState(0)
+
+  const next = () => {
+    if (currentPlanetIndex < planetas.length - 1) {
+      setCurrentPlanetIndex(currentPlanetIndex + 1)
+    }
   }
+
+  const previous = () => {
+    if (currentPlanetIndex > 0) {
+      setCurrentPlanetIndex(currentPlanetIndex - 1)
+    }
+  }
+
   return (
     <SafeAreaView style={{ flex: 1 }}>
+      
       <View style={styles.header}>
         <View style={styles.headerContentRow}>
           <Text style={styles.headerText}>Vamos explorar</Text>
@@ -26,54 +44,16 @@ export default function App() {
         </View>
 
         <ScrollView>
-          {planetas.map((planeta) => (
-            <View style={styles.planet}>
-              <Text style={styles.planetTitle}>{planeta.nome}</Text>
-              <Image
-                style={styles.planetImage}
-                source={{
-                  uri: planeta.img,
-                }}
-              ></Image>
-
-              <View style={styles.planetSubject}>
-                <View style={styles.planetRow}>
-                  <Text style={styles.planetText1}>Average Orbital Speed</Text>
-                  <Text style={styles.planetText2}>
-                    {planeta.velocidadeOrbitalMediaKmS}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.planetSubject}>
-                <View style={styles.planetRow}>
-                  <Text style={styles.planetText1}>Satellites</Text>
-                  <Text style={styles.planetText2}>
-                    {planeta.quantidadeSatelites}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.planetSubject}>
-                <View style={styles.planetRow}>
-                  <Text style={styles.planetText1}>Surface Area</Text>
-                  <Text style={styles.planetText2}>
-                    {formatNum(planeta.areaSuperficieKm2)}
-                  </Text>
-                </View>
-              </View>
-
-              <View style={styles.planetSubject}>
-                <View style={styles.planetRow}>
-                  <Text style={styles.planetText1}>Rotation Period</Text>
-                  <Text style={styles.planetText2}>
-                    {planeta.periodoRotacaoDias}
-                  </Text>
-                </View>
-              </View>
-            </View>
-          ))}
+          <Planet planeta={planetas[currentPlanetIndex]}></Planet>
+          {/* {planetas.map((planeta) => (
+            <Planet planeta={planeta}></Planet>
+          ))} */}
         </ScrollView>
+        <View style={styles.navButtons}>
+          <Button title="Anterior" onPress={previous} disabled={currentPlanetIndex === 0}></Button>
+          <Button title="Próximo" onPress={next} disabled={currentPlanetIndex === planetas.length - 1}></Button>
+        </View>
+
       </View>
     </SafeAreaView>
   );
@@ -104,45 +84,11 @@ const styles = StyleSheet.create({
     gap: 9,
     marginBottom: 15,
   },
-  planet: {
-    padding: 10,
-    width: "100%",
-    backgroundColor: "#000",
-    borderRadius: 15,
-    marginBottom: 20,
-  },
-  planetTitle: {
-    color: "#FFF",
-    textAlign: "center",
-    fontSize: 35,
-  },
-  planetImage: {
-    width: 380,
-    height: 200,
-    alignItems: "center",
-  },
-  planetSubject: {
-    flexDirection: "column",
-    justifyContent: "flex-start",
-    padding: 5,
-  },
-  planetRow: {
-    flexDirection: "row",
-    justifyContent: "space-between",
-    width: "100%",
-    alignItems: "center",
-  },
 
-  planetText1: {
-    color: "#FFF",
-    fontWeight: "300",
-    fontSize: 16,
-    flex: 1,
-  },
-  planetText2: {
-    color: "#FFF",
-    fontWeight: "bold",
-    fontSize: 16,
-    marginRight: 10,
-  },
+  navButtons: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    width: '80%',
+    marginTop: 10
+  }
 });
